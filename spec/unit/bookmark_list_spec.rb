@@ -6,7 +6,9 @@ describe Bookmark do
 
   describe '#self.all' do
     it 'returns array of Bookmark instances' do
-      expect(Bookmark.all).to include("hello")
+      expect(Bookmark.all).to include("http://www.makersacademy.com")
+      expect(Bookmark.all).to include("http://www.destroyallsoftware.com")
+      expect(Bookmark.all).to include("http://www.google.com")
     end
   end
 end
