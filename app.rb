@@ -2,7 +2,7 @@ require 'sinatra/base'
 require './lib/bookmark.rb'
 
 class BookmarkManager < Sinatra::Base
- 
+
   before do
     @bookmark_list = Bookmark.all
   end
