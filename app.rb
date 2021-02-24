@@ -2,12 +2,18 @@ require 'sinatra/base'
 require './lib/bookmark.rb'
 
 class BookmarkManager < Sinatra::Base
+ 
   before do
     @bookmark_list = Bookmark.all
   end
 
     get '/' do
         erb :index
+    end
+
+    post '/add_bookmark' do
+      Bookmark.create(url: params[:url])
+      redirect '/'
     end
 
     get '/bookmarks' do
