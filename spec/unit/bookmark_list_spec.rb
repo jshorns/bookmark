@@ -29,4 +29,14 @@ describe Bookmark do
     end
   end
 
+  describe '.delete' do
+    it 'deletes a bookmark from the table' do
+      bookmark = Bookmark.create(url: 'https://rupaul.com/', title: 'Rupaul')
+      Bookmark.delete(id: bookmark.id)
+      expect(persisted_data(id: bookmark.id)).to be_nil
+      expect(Bookmark.all).not_to include(bookmark)
+    end
+
+  end
+
 end
