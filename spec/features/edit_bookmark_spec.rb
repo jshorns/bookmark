@@ -1,7 +1,7 @@
 
 feature 'editing a bookmark' do
   scenario 'updates and changes bookmark information' do
-    bookmark = Bookmark.create(url: 'http://www.bbc.co.uk', title: 'Auntie')
+    bookmark = Bookmark.create(url: 'http://www.bbc.co.uk', title: 'The Beeb')
     visit('/')
     click_button('Edit')
     expect(current_path).to eq "/bookmarks/#{bookmark.id}/edit"
