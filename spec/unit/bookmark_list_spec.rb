@@ -36,7 +36,17 @@ describe Bookmark do
       expect(persisted_data(id: bookmark.id)).to be_nil
       expect(Bookmark.all).not_to include(bookmark)
     end
+  end
 
+  describe '.edit' do
+    it 'edits and updates a bookmark from the table' do
+      bookmark = Bookmark.create(url: 'https://rupaul.com/', title: 'Rupaul')
+      Bookmark.edit(id: bookmark.id, url: 'https://www.bbc.co.uk/programmes/p07kt8b4', title: 'Rupaul UK')
+      persisted_data = persisted_data(id: bookmark.id)
+      puts persisted_data
+      expect(persisted_data["title"]).to eq 'Rupaul UK'
+      expect(persisted_data["url"]).to eq 'https://www.bbc.co.uk/programmes/p07kt8b4'
+    end
   end
 
 end

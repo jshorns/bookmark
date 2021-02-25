@@ -8,6 +8,10 @@ class BookmarkManager < Sinatra::Base
     @bookmark_list = Bookmark.all
   end
 
+    get '/' do
+      redirect('/bookmarks')
+    end
+
     get '/bookmarks' do
       erb :bookmarks
     end
@@ -19,6 +23,16 @@ class BookmarkManager < Sinatra::Base
 
     delete '/bookmarks/:id' do
       Bookmark.delete(id: params[:id])
+      redirect '/bookmarks'
+    end
+
+    get '/bookmarks/:id/edit' do
+      @bookmark_id = params[:id]
+      erb :edit
+    end
+
+    patch '/bookmarks/:id' do
+      Bookmark.edit(id: params[:id], url: params[:url], title: params[:title])
       redirect '/bookmarks'
     end
 

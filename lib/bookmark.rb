@@ -17,6 +17,10 @@ class Bookmark
     get_connection.exec("DELETE FROM bookmarks WHERE id = '#{id}'")
   end
 
+  def self.edit(id:, url:, title:)
+    get_connection.exec("UPDATE bookmarks SET url = '#{url}', title = '#{title}' WHERE id = '#{id}'")
+  end
+
   def initialize(id:, url:, title:)
     @id = id
     @url = url
