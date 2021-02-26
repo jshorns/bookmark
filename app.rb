@@ -22,7 +22,8 @@ class BookmarkManager < Sinatra::Base
     end
 
     post '/bookmarks' do
-      Bookmark.create(url: params[:url], title: params[:title])
+      session[:fake] = true if ((/^http:\/\//) || (/^https:\/\//)).match(params[:url]).nil?
+      Bookmark.create(url: params[:url], title: params[:title]) unless session[:fake]
       redirect '/bookmarks'
     end
 
