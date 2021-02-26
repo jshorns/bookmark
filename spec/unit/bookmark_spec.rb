@@ -5,7 +5,7 @@ describe Bookmark do
 
   describe '#self.all' do
     it 'returns list of bookmark instances' do
-      connection = PG.connect(dbname: 'bookmark_manager_test')
+      connection = DatabaseConnection.setup('bookmark_manager_test')
       bookmark = Bookmark.create(url: "http://www.makersacademy.com", title: "Makers")
       Bookmark.create(url: "http://www.destroyallsoftware.com", title: "Destroy All Software")
       Bookmark.create(url: "http://www.google.com", title: "Google")
