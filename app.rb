@@ -1,9 +1,12 @@
 require 'sinatra/base'
 require './lib/bookmark'
 require './get_connection.rb'
+require 'sinatra/flash'
 
 class BookmarkManager < Sinatra::Base
   enable :sessions, :method_override
+  register Sinatra::Flash
+
 
   before do
     @bookmark_list = Bookmark.all
@@ -22,8 +25,11 @@ class BookmarkManager < Sinatra::Base
     end
 
     post '/bookmarks' do
-      session[:fake] = true if ((/^http:\/\//) || (/^https:\/\//)).match(params[:url]).nil?
-      Bookmark.create(url: params[:url], title: params[:title]) unless session[:fake]
+      if params['url'] =~ /\A#{URI::regexp(['http', 'https'])}\z/
+        Bookmark.create(url: params[:url], title: params[:title])
+      else
+        flash[:invalid_url] = "That's not a valid url"
+      end
       redirect '/bookmarks'
     end
 
