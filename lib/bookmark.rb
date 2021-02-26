@@ -4,6 +4,7 @@ class Bookmark
   attr_reader :id, :url, :title
 
   def self.create(url:, title:)
+    return false unless is_url?(url)
     result = DatabaseConnection.query("INSERT INTO bookmarks (url, title) VALUES('#{url}', '#{title}') RETURNING id, title, url;")
     Bookmark.new(id: result[0]['id'], url: result[0]['url'], title: result[0]['title'])
   end
@@ -31,6 +32,12 @@ class Bookmark
     @id = id
     @url = url
     @title = title
+  end
+
+  private
+
+  def self.is_url?(url)
+    url =~ /\A#{URI::regexp(['http', 'https'])}\z/
   end
 
 end
