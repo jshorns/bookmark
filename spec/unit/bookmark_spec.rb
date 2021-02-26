@@ -12,7 +12,6 @@ describe Bookmark do
       bookmarks = Bookmark.all
       expect(bookmarks.length).to eq(3)
       expect(bookmarks.first).to be_a Bookmark
-    #  expect(bookmarks.first.id).to eq(bookmark.id)
       expect(bookmarks.first.title).to eq("Makers")
       expect(bookmarks.first.url).to eq("http://www.makersacademy.com")
     end
@@ -60,6 +59,16 @@ describe Bookmark do
       persisted_data = persisted_data(id: bookmark.id)
       expect(persisted_data["title"]).to eq 'Rupaul UK'
       expect(persisted_data["url"]).to eq 'https://www.bbc.co.uk/programmes/p07kt8b4'
+    end
+  end
+
+  describe 'comments' do
+    it 'returns a list of comments for that bookmark' do
+      bookmark = Bookmark.create(url: 'https://rupaul.com/', title: 'Rupaul')
+      comment = Comment.create(text: 'what a lovely comment', bookmark_id: bookmark.id)
+      expect(bookmark.comments.length).to eq 1
+      expect(bookmark.comments.first.text).to eq('what a lovely comment')
+      expect(bookmark.comments.first.bookmark_id).to eq("#{bookmark.id}")
     end
   end
 

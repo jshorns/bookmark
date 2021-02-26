@@ -45,5 +45,16 @@ class BookmarkManager < Sinatra::Base
       redirect '/bookmarks'
     end
 
+    get '/bookmarks/:id/comments/new' do
+      @bookmark_id = params[:id]
+      @bookmark = Bookmark.find(id: @bookmark_id)
+      erb(:'bookmarks/comments/new')
+    end
+
+    post '/bookmarks/:id/comments' do
+      DatabaseConnection.db.exec("INSERT INTO comments (text, bookmark_id) VALUES('#{params[:comment]}', '#{params[:id]}');")
+      redirect '/bookmarks'
+    end
+
     run! if app_file == $0
 end

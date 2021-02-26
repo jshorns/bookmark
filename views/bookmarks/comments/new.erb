@@ -1,0 +1,7 @@
+<h1> Commenting on Bookmark <%= @bookmark.title %> </h1>
+<h2>Add Comment:</h2>
+<form action='/bookmarks/<%= @bookmark.id %>/comments' method='post'>
+<label for ="comment">Comment:</label>
+<input type='text' name='comment' id='comment'>
+<input type='submit' value='Submit'>
+</form>

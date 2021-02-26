@@ -1,7 +1,8 @@
 require_relative 'database_connection'
+require_relative 'comment'
 
 class Bookmark
-  attr_reader :id, :url, :title
+  attr_reader :id, :url, :title, :comments
 
   def self.create(url:, title:)
     return false unless is_url?(url)
@@ -32,6 +33,10 @@ class Bookmark
     @id = id
     @url = url
     @title = title
+  end
+
+  def comments
+    Comment.all(bookmark_id: @id)
   end
 
   private
