@@ -1,0 +1,19 @@
+<h1> Adding tag to Bookmark <%= @bookmark.title %> </h1>
+<h2> Existing tags for this bookmark</h2>
+<ul>
+<% @bookmark.tags.each do |tag| %>
+  <li><%= tag.content %></li>
+  <% end %>
+</ul>
+<h3>Add Tag:</h3>
+<form action='/bookmarks/<%= @bookmark.id %>/tags' method='post'>
+<label for ="content">Content:</label>
+<input type='text' name='content' id='content'>
+<input type='submit' value='Submit'>
+</form>
+<h2>Add existing tag:</h2>
+<ul>
+<% @tag_list.each do |tag| %>
+  <li><%= tag.content %></li>
+  <% end %>
+</ul>

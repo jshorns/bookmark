@@ -1,5 +1,6 @@
 require_relative 'database_connection'
 require_relative 'comment'
+require_relative 'tag'
 
 class Bookmark
   attr_reader :id, :url, :title, :comments
@@ -37,6 +38,15 @@ class Bookmark
 
   def comments
     Comment.all(bookmark_id: @id)
+  end
+
+  def tags(bookmark_id: @id)
+    result = DatabaseConnection.query("SELECT content FROM tags INNER JOIN bookmark_tags ON tags.id = bookmark_tags.tag_id WHERE bookmark_id = '#{@id}';")
+    tags = result.map { |row| Tag.new(id: row['id'], content: row['content']) }
+  end
+
+  def add_tag(tag_id:)
+    DatabaseConnection.query("INSERT INTO bookmark_tags (bookmark_id, tag_id) VALUES('#{@id}', '#{tag_id}');")
   end
 
   private

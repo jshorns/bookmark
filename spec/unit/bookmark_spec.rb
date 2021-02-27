@@ -72,4 +72,29 @@ describe Bookmark do
     end
   end
 
+  describe 'comments' do
+    it 'returns a list of comments for that bookmark' do
+      bookmark = Bookmark.create(url: 'https://rupaul.com/', title: 'Rupaul')
+      comment = Comment.create(text: 'what a lovely comment', bookmark_id: bookmark.id)
+      expect(bookmark.comments.length).to eq 1
+      expect(bookmark.comments.first.text).to eq('what a lovely comment')
+      expect(bookmark.comments.first.bookmark_id).to eq("#{bookmark.id}")
+    end
+  end
+
+  describe 'tags' do
+    it 'returns tags for that bookmark' do
+      tag = Tag.create(content: 'funny')
+      tag2 = Tag.create(content: 'sad')
+      tag3 = Tag.create(content: 'discombobulating')
+      bookmark = Bookmark.create(url: 'https://rupaul.com/', title: 'Rupaul')
+      bookmark.add_tag(tag_id: tag.id)
+      bookmark.add_tag(tag_id: tag2.id)
+      bookmark.add_tag(tag_id: tag3.id)
+      expect(bookmark.tags.length).to eq(3)
+      expect(bookmark.tags.first).to be_a Tag
+      expect(bookmark.tags.first.content).to eq("funny")
+    end
+  end
+
 end

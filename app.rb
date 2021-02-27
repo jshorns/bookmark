@@ -10,6 +10,7 @@ class BookmarkManager < Sinatra::Base
 
   before do
     @bookmark_list = Bookmark.all
+    @tag_list = Tag.all
   end
 
     get '/' do
@@ -53,6 +54,21 @@ class BookmarkManager < Sinatra::Base
 
     post '/bookmarks/:id/comments' do
       DatabaseConnection.db.exec("INSERT INTO comments (text, bookmark_id) VALUES('#{params[:comment]}', '#{params[:id]}');")
+      redirect '/bookmarks'
+    end
+
+    get '/bookmarks/:id/tags/new' do
+      @bookmark_id = params[:id]
+      @bookmark = Bookmark.find(id: @bookmark_id)
+      erb(:'bookmarks/tags/new')
+    end
+
+    post '/bookmarks/:id/tags' do
+      @bookmark_id = params[:id]
+      @bookmark = Bookmark.find(id: @bookmark_id)
+      @content = params[:content]
+      @tag = Tag.create(content: params[:content])
+      @bookmark.add_tag(tag_id: @tag.id)
       redirect '/bookmarks'
     end
 
