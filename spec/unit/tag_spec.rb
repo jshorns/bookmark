@@ -10,6 +10,11 @@ describe Tag do
       expect(tag.id).to eq persisted_data['id']
       expect(tag.content).to eq 'funny'
     end
+    it 'does not create a new tag if that tag already exists' do
+      tag = Tag.create(content: 'funny')
+      expect(Tag.create(content: 'funny')).to be false
+
+    end
   end
   describe '.find' do
     it 'returns a Tag instance with the appropriate values' do
